@@ -2,7 +2,7 @@
   "name": "jim-test",
   "displayName": "jim-test",
   "description": "",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.86.0"
   },
@@ -23,12 +23,14 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "vscode:prepublish": "npm run esbuild-base -- --minify && npm run copy-static",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap && npm run copy-static",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test",
+    "copy-static": "copyfiles -u 1 ./**/*.tmpl ./out",
+    "deploy": "vsce publish",
     "package": "vsce package"
   },
   "devDependencies": {
@@ -39,10 +41,10 @@
     "@typescript-eslint/parser": "^6.15.0",
     "@vscode/test-cli": "^0.0.4",
     "@vscode/test-electron": "^2.3.8",
+    "copyfiles": "^2.4.1",
+    "esbuild": "^0.20.1",
     "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
+    "typescript": "^5.3.3",
     "vsce": "^2.15.0"
   }
 }
