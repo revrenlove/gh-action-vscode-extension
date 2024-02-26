@@ -14,8 +14,12 @@ jobs:
                   ref: ${{ github.ref }}
                   token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Run a one-line script
-              run: echo Release hit!
+            - name: get-npm-version pre
+              id: package-version-pre
+              uses: martinbeentjes/npm-get-version-action@main
+
+            - name: Version Pre
+              run: echo ${{ steps.package-version-pre.outputs.current-version}}
 
             - name: Use Node
               uses: actions/setup-node@v2
@@ -28,3 +32,8 @@ jobs:
             - name: Package
               id: package
               run: npm run package
+
+            - name: Upload Release Assets
+              run: gh release upload v${{ steps.package-version-pre.outputs.current-version}} ./*.vsix
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
