@@ -1,0 +1,30 @@
+name: Release-Test
+
+on:
+    release:
+        types: [released]
+
+jobs:
+    stuff:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.ref }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Run a one-line script
+              run: echo Release hit!
+
+            - name: Use Node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16.x
+                  cache: "npm"
+            - run: npm i
+            - run: npm run esbuild
+
+            - name: Package
+              id: package
+              run: npm run package
