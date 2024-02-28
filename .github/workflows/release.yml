@@ -14,6 +14,10 @@ jobs:
                   ref: ${{ github.ref }}
                   token: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: test-js-action
+              id: test-js-action
+              uses: revrenlove/js-action-tester@main
+
             - name: get-npm-version pre
               id: package-version-pre
               uses: martinbeentjes/npm-get-version-action@main
