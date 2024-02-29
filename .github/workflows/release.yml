@@ -17,6 +17,9 @@ jobs:
             - name: test-js-action
               id: test-js-action
               uses: revrenlove/js-action-tester@main
+              with:
+                  ref: ${{ github.ref }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: get-npm-version pre
               id: package-version-pre
