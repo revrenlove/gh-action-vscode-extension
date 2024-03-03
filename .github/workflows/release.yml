@@ -14,13 +14,6 @@ jobs:
                   ref: ${{ github.ref }}
                   token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: test-js-action
-              id: test-js-action
-              uses: revrenlove/js-action-tester@main
-              with:
-                  ref: ${{ github.ref }}
-                  token: ${{ secrets.GITHUB_TOKEN }}
-
             - name: get-npm-version pre
               id: package-version-pre
               uses: martinbeentjes/npm-get-version-action@main
@@ -35,6 +28,9 @@ jobs:
                   cache: "npm"
             - run: npm i
             - run: npm run esbuild
+
+            - name: JS Test
+              uses: ./.github/workflows/actions/js-test
 
             - name: Package
               id: package
