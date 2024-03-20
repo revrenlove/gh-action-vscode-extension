@@ -1,10 +1,19 @@
 // import * as core from "@actions/core";
 import * as github from "@actions/github";
 
+const print = (msg) => {
+    if (typeof msg === "object") {
+        msg = JSON.stringify(msg, null, 4);
+    }
+
+    console.log(msg);
+};
+
 var payload = github.context.payload;
 
-var payloadJson = JSON.stringify(payload, null, 4);
+if (!payload.pull_request) {
+    print("No pull request object.");
+    return;
+}
 
-// Adding random comment
-
-console.log(payloadJson);
+print(payload.pull_request);
