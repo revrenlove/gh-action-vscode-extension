@@ -1,6 +1,8 @@
 import core from "@actions/core";
 import github from "@actions/github";
 
+console.log("Starting");
+
 const event = require(process.env.GITHUB_EVENT_PATH);
 
 console.log(JSON.stringify(event, null, 4));
