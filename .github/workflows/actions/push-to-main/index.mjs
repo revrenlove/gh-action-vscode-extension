@@ -11,6 +11,8 @@ const print = (msg) => {
 
 var payload = github.context.payload;
 
+print(payload);
+
 if (!payload.pull_request) {
     print("No pull request object.");
     return;
