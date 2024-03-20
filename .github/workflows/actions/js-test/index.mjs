@@ -4,9 +4,9 @@ import * as github from "@actions/github";
 
 console.log("Starting");
 
-console.log(JSON.stringify(github.context.payload));
+console.log(JSON.stringify(github.context.payload, null, 4));
 
-console.log(core.ExitCode.Success.toLocaleString());
+// console.log(core.ExitCode.Success.toLocaleString());
 
 const idToken = await core.getIDToken();
 console.log(idToken);
