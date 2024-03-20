@@ -1,9 +1,11 @@
-import core from "@actions/core";
+// import { ExitCode, getIDToken } from "@actions/core";
+import * as core from "@actions/core";
 import github from "@actions/github";
+import * as event from process.env.GITHUB_EVENT_PATH;
 
 console.log("Starting");
 
-const event = require(process.env.GITHUB_EVENT_PATH);
+// const event = require(process.env.GITHUB_EVENT_PATH);
 
 console.log(JSON.stringify(event, null, 4));
 
