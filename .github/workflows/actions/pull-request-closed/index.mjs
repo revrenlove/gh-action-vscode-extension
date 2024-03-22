@@ -9,6 +9,8 @@ import * as github from "@actions/github";
 //     console.log(msg);
 // };
 
+print("pull-request-closed workflow starting...");
+
 const payload = github.context.payload;
 
 print(payload);
