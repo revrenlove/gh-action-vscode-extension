@@ -43,11 +43,13 @@ const bumpMajor = async () => {
     print("Bumping major...");
 
     // Get tha package.json file
-    const rawPackageJson = await fetch(
+    const response = await fetch(
         "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
     );
 
-    console.log(rawPackageJson);
+    const packageJson = await response.json();
+
+    console.log(packageJson.version);
 
     // Get current version from package json
 
