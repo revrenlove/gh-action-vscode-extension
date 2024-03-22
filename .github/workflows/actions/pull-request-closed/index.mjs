@@ -47,8 +47,16 @@ const bumpMajor = async () => {
 
     version.major++;
 
-    print("attempting the `exec` command thingy");
-    await exec.exec("ls");
+    packageJson.version = version.toString();
+
+    const packageJsonAsString = JSON.stringify(packageJson, null, 2);
+
+    const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
+
+    const newFileContents = print("attempting the `exec` command thingy");
+    await exec.exec(`echo ${escapedPackageJsonString} > tmp1.json`);
+
+    await exec.exec("cat tmp1.json");
 
     // mod package.json
 
