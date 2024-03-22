@@ -64,8 +64,8 @@ const bumpMajor = async () => {
         await exec.exec("git config --global user.name", "Jim's Robot");
 
         await exec.exec("git add -A");
-        await exec.exec("git commit -m", `Updating version to ${version}`);
-        await exec.exec("git push");
+        await exec.exec("git commit -m", `"Updating version to ${version}"`);
+        await exec.exec("git push -f");
     });
 
     // const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
