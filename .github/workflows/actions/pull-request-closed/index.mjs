@@ -56,7 +56,7 @@ const bumpMajor = async () => {
     const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
 
     print("attempting to write to the package.json file...");
-    await exec.exec(`echo "${escapedPackageJsonString}" > package.json`);
+    await exec.exec("echo", escapedPackageJsonString, ">", "package.json");
 
     print("outputting package.json now...");
     await exec.exec("cat package.json");
