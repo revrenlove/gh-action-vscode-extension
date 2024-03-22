@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import * as exec from "@actions/exec";
 import fetch from "node-fetch";
 
 const print = (msg) => {
@@ -40,23 +41,11 @@ class Version {
 //  publish
 
 const bumpMajor = async () => {
-    print("Bumping major...");
+    const packageJson = await getPackageJson();
 
-    // Get tha package.json file
-    const response = await fetch(
-        "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
-    );
+    packageJson.version.major++;
 
-    const packageJson = await response.json();
-
-    print(packageJson.version);
-
-    const version = new Version(packageJson.version);
-
-    print(version);
-    print(`${version}`);
-
-    // Get current version from package json
+    const x = exec.exec("ls");
 
     // mod package.json
 
@@ -67,6 +56,28 @@ const bumpVersion = (version) => {
     // mod package.json
     // commit directly to main
 };
+
+const getPackageJson = async () => {
+    const response = await fetch(
+        "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
+    );
+
+    const packageJson = await response.json();
+
+    return packageJson;
+};
+
+// const getCurrentVersion = async () => {
+//     const response = await fetch(
+//         "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
+//     );
+
+//     const packageJson = await response.json();
+
+//     const version = new Version(packageJson.version);
+
+//     return version;
+// };
 
 // MAIN CODE GOES HERE
 (() => {
