@@ -57,7 +57,14 @@ const bumpMajor = async () => {
     fs.writeFile("./package.json", packageJsonAsString, async () => {
         print("Fuck callbacks...");
 
-        await exec.exec("git status");
+        await exec.exec("git add -A");
+        await exec.exec(
+            "git",
+            "commit",
+            "-m",
+            `Updating version to ${version}`
+        );
+        await exec.exec("git push");
     });
 
     // const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
