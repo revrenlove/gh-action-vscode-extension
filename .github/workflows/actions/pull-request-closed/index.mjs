@@ -57,6 +57,12 @@ const bumpMajor = async () => {
     fs.writeFile("./package.json", packageJsonAsString, async () => {
         print("Fuck callbacks...");
 
+        await exec.exec(
+            "git config --global user.email",
+            "elrod.dev@gmail.com"
+        );
+        await exec.exec("git config --global user.name", "Jim's Robot");
+
         await exec.exec("git add -A");
         await exec.exec(
             "git",
