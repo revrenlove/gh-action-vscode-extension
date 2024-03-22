@@ -49,7 +49,12 @@ const bumpMajor = async () => {
 
     const packageJson = await response.json();
 
-    console.log(packageJson.version);
+    print(packageJson.version);
+
+    const version = new Version(packageJson.version);
+
+    print(version);
+    print(`${version}`);
 
     // Get current version from package json
 
