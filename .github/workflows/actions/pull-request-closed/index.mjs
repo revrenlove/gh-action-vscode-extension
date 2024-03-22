@@ -54,7 +54,7 @@ const bumpMajor = async () => {
     const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
 
     const newFileContents = print("attempting the `exec` command thingy");
-    await exec.exec(`echo ${escapedPackageJsonString} > tmp1.json`);
+    await exec.exec(`echo "${escapedPackageJsonString}" > tmp1.json`);
 
     await exec.exec("cat tmp1.json");
 
