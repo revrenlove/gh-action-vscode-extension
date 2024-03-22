@@ -12,7 +12,7 @@ const print = (msg) => {
 
 print("pull-request-closed workflow starting...");
 
-// const payload = github.context.payload;
+const payload = github.context.payload;
 
 // print(payload);
 
