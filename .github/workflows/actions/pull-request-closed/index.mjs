@@ -43,9 +43,12 @@ class Version {
 const bumpMajor = async () => {
     const packageJson = await getPackageJson();
 
-    packageJson.version.major++;
+    const version = new Version(packageJson.version);
 
-    const x = exec.exec("ls");
+    version.major++;
+
+    print("attempting the `exec` command thingy");
+    await exec.exec("ls");
 
     // mod package.json
 
