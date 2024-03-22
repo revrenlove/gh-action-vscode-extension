@@ -45,6 +45,8 @@ const bumpMajor = async () => {
 
     const version = new Version(packageJson.version);
 
+    print(`Version before anything: ${version}`);
+
     version.major++;
 
     packageJson.version = version.toString();
@@ -53,10 +55,13 @@ const bumpMajor = async () => {
 
     const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
 
-    const newFileContents = print("attempting the `exec` command thingy");
-    await exec.exec(`echo "${escapedPackageJsonString}" > tmp1.json`);
+    print("attempting to write to the package.json file...");
+    await exec.exec(`echo "${escapedPackageJsonString}" > package.json`);
 
-    await exec.exec("cat tmp1.json");
+    print("outputting package.json now...");
+    await exec.exec("cat package.json");
+
+    await exec.exec("git status");
 
     // mod package.json
 
