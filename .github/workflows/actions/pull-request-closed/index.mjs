@@ -61,7 +61,7 @@ const bumpMajor = async () => {
             "git config --global user.email",
             "elrod.dev@gmail.com"
         );
-        await exec.exec("git config --global user.name", "Jim's Robot");
+        await exec.exec('git config --global user.name "Jim\'s Robot"');
 
         await exec.exec("git add -A");
         await exec.exec("git commit -m", `"Updating version to ${version}"`);
