@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as exec from "@actions/exec";
 import fetch from "node-fetch";
+import * as fs from "fs";
 
 const print = (msg) => {
     if (typeof msg === "object") {
@@ -53,15 +54,21 @@ const bumpMajor = async () => {
 
     const packageJsonAsString = JSON.stringify(packageJson, null, 2);
 
-    const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
+    fs.writeFile("./package2.json", packageJsonAsString, async () => {
+        print("Fuck callbacks...");
 
-    print("attempting to write to the package.json file...");
-    await exec.exec("echo", escapedPackageJsonString, ">", "package.json");
+        await exec.exec("ls");
+    });
 
-    print("outputting package.json now...");
-    await exec.exec("cat package.json");
+    // const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
 
-    await exec.exec("git status");
+    // print("attempting to write to the package.json file...");
+    // await exec.exec("echo", escapedPackageJsonString, ">", "package.json");
+
+    // print("outputting package.json now...");
+    // await exec.exec("cat package.json");
+
+    // await exec.exec("git status");
 
     // mod package.json
 
