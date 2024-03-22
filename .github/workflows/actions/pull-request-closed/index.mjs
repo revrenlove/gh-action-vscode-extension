@@ -71,13 +71,13 @@ const bumpVersion = (version) => {
     //     print(label.name);
     // });
     // // []
-    // const labelNames = payload.pull_request.labels.map((label) => label.name);
+    const labelNames = payload.pull_request.labels.map((label) => label.name);
     // TODO: JE - Validate shit...
     // TODO: Bump version
     // TODO: Tag release
     // TODO: publish
 
-    if (payload.pull_request.labels.includes("major")) {
+    if (labelNames.includes("major")) {
         bumpMajor();
     }
 })();
