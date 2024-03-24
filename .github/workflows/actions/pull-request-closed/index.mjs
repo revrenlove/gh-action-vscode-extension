@@ -1,3 +1,5 @@
+// TODO: JE - Come up with a flow chart or something to map out how the shit should actually work...
+
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as exec from "@actions/exec";
@@ -41,17 +43,43 @@ class Version {
 //  ===========
 //  publish
 
-const bumpMajor = async () => {
+async function bumpMajor() {
+    // const packageJson = await getPackageJson();
+    // const version = new Version(packageJson.version);
+    // print(`Version before anything: ${version}`);
+    // version.major++;
+    // packageJson.version = version.toString();
+    // await updatePackageJson(packageJson);
+
+    await updateVersionAndCommitPackageJsonChanges();
+}
+
+async function updateVersionAndCommitPackageJsonChanges(labelNames) {
+    if (!labelNames) return;
+
     const packageJson = await getPackageJson();
 
     const version = new Version(packageJson.version);
 
     print(`Version before anything: ${version}`);
 
-    version.major++;
+    if (labelNames.includes("major")) {
+        version.major++;
+        version.minor = 0;
+        version.patch = 0;
+    } else if (labelNames.includes("minor")) {
+        version.minor++;
+        version.patch = 0;
+    } else if (labelNames.includes("patch")) {
+        version.patch++;
+    }
 
     packageJson.version = version.toString();
 
+    await updatePackageJson(packageJson);
+}
+
+const updatePackageJson = async (packageJson) => {
     const packageJsonAsString = JSON.stringify(packageJson, null, 2);
 
     fs.writeFile("./package.json", packageJsonAsString, async () => {
@@ -67,25 +95,6 @@ const bumpMajor = async () => {
         await exec.exec("git commit -m", `"Updating version to ${version}"`);
         await exec.exec("git push -f");
     });
-
-    // const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
-
-    // print("attempting to write to the package.json file...");
-    // await exec.exec("echo", escapedPackageJsonString, ">", "package.json");
-
-    // print("outputting package.json now...");
-    // await exec.exec("cat package.json");
-
-    // await exec.exec("git status");
-
-    // mod package.json
-
-    // commit directly to main
-};
-
-const bumpVersion = (version) => {
-    // mod package.json
-    // commit directly to main
 };
 
 const getPackageJson = async () => {
@@ -98,33 +107,15 @@ const getPackageJson = async () => {
     return packageJson;
 };
 
-// const getCurrentVersion = async () => {
-//     const response = await fetch(
-//         "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
-//     );
-
-//     const packageJson = await response.json();
-
-//     const version = new Version(packageJson.version);
-
-//     return version;
-// };
-
 // MAIN CODE GOES HERE
 (() => {
-    // if (!payload.pull_request.merged) {
-    //     print("PR was closed without merging. Exiting.");
-    //     return;
-    // }
-    // payload.pull_request.labels.forEach((label) => {
-    //     print(label.name);
-    // });
-    // // []
     const labelNames = payload.pull_request.labels.map((label) => label.name);
     // TODO: JE - Validate shit...
     // TODO: Bump version
     // TODO: Tag release
     // TODO: publish
+
+    let newVersion = 0;
 
     if (labelNames.includes("major")) {
         bumpMajor();
