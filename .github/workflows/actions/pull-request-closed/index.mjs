@@ -1,3 +1,5 @@
+// TODO: JE - Come up with a flow chart or something to map out how the shit should actually work...
+
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as exec from "@actions/exec";
@@ -16,117 +18,107 @@ print("pull-request-closed workflow starting...");
 
 const payload = github.context.payload;
 
-// print(payload);
+print(payload);
 
-class Version {
-    constructor(versionString) {
-        const parts = versionString.split(".");
+// class Version {
+//     constructor(versionString) {
+//         const parts = versionString.split(".");
 
-        this.major = parts[0];
-        this.minor = parts[1];
-        this.patch = parts[2];
+//         this.major = parts[0];
+//         this.minor = parts[1];
+//         this.patch = parts[2];
 
-        this.toString = () => `${this.major}.${this.minor}.${this.patch}`;
-    }
-}
+//         this.toString = () => `${this.major}.${this.minor}.${this.patch}`;
+//     }
+// }
 
-// Labels:
-//  ===========
-//  major
-//  minor
-//  patch
-//  ===========
-//  release
-//  prerelease
-//  ===========
-//  publish
+// // Labels:
+// //  ===========
+// //  major
+// //  minor
+// //  patch
+// //  ===========
+// //  release
+// //  prerelease
+// //  ===========
+// //  publish
 
-const bumpMajor = async () => {
-    const packageJson = await getPackageJson();
+// async function bumpMajor() {
+//     // const packageJson = await getPackageJson();
+//     // const version = new Version(packageJson.version);
+//     // print(`Version before anything: ${version}`);
+//     // version.major++;
+//     // packageJson.version = version.toString();
+//     // await updatePackageJson(packageJson);
 
-    const version = new Version(packageJson.version);
+//     await updateVersionAndCommitPackageJsonChanges();
+// }
 
-    print(`Version before anything: ${version}`);
+// // TODO: Separate logic???
+// async function updateVersionAndCommitPackageJsonChanges(labelNames) {
+//     if (!labelNames) return;
 
-    version.major++;
+//     const packageJson = await getPackageJson();
 
-    packageJson.version = version.toString();
+//     const version = new Version(packageJson.version);
 
-    const packageJsonAsString = JSON.stringify(packageJson, null, 2);
+//     print(`Version before anything: ${version}`);
 
-    fs.writeFile("./package.json", packageJsonAsString, async () => {
-        print("Fuck callbacks...");
+//     if (labelNames.includes("major")) {
+//         version.major++;
+//         version.minor = 0;
+//         version.patch = 0;
+//     } else if (labelNames.includes("minor")) {
+//         version.minor++;
+//         version.patch = 0;
+//     } else if (labelNames.includes("patch")) {
+//         version.patch++;
+//     }
 
-        await exec.exec(
-            "git config --global user.email",
-            "elrod.dev@gmail.com"
-        );
-        await exec.exec('git config --global user.name "Jim\'s Robot"');
+//     packageJson.version = version.toString();
 
-        await exec.exec("git add -A");
-        await exec.exec("git commit -m", `"Updating version to ${version}"`);
-        await exec.exec("git push -f");
-    });
+//     await updatePackageJson(packageJson);
+// }
 
-    // const escapedPackageJsonString = packageJsonAsString.replace('"', '\\"');
+// const updatePackageJson = async (packageJson) => {
+//     const packageJsonAsString = JSON.stringify(packageJson, null, 2);
 
-    // print("attempting to write to the package.json file...");
-    // await exec.exec("echo", escapedPackageJsonString, ">", "package.json");
+//     fs.writeFile("./package.json", packageJsonAsString, async () => {
+//         print("Fuck callbacks...");
 
-    // print("outputting package.json now...");
-    // await exec.exec("cat package.json");
+//         await exec.exec(
+//             "git config --global user.email",
+//             "elrod.dev@gmail.com"
+//         );
+//         await exec.exec('git config --global user.name "Jim\'s Robot"');
 
-    // await exec.exec("git status");
+//         await exec.exec("git add -A");
+//         await exec.exec("git commit -m", `"Updating version to ${version}"`);
+//         await exec.exec("git push -f");
+//     });
+// };
 
-    // mod package.json
-
-    // commit directly to main
-};
-
-const bumpVersion = (version) => {
-    // mod package.json
-    // commit directly to main
-};
-
-const getPackageJson = async () => {
-    const response = await fetch(
-        "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
-    );
-
-    const packageJson = await response.json();
-
-    return packageJson;
-};
-
-// const getCurrentVersion = async () => {
+// const getPackageJson = async () => {
 //     const response = await fetch(
 //         "https://raw.githubusercontent.com/revrenlove/gh-action-vscode-extension/main/package.json"
 //     );
 
 //     const packageJson = await response.json();
 
-//     const version = new Version(packageJson.version);
-
-//     return version;
+//     return packageJson;
 // };
 
-// MAIN CODE GOES HERE
-(() => {
-    // if (!payload.pull_request.merged) {
-    //     print("PR was closed without merging. Exiting.");
-    //     return;
-    // }
-    // payload.pull_request.labels.forEach((label) => {
-    //     print(label.name);
-    // });
-    // // []
-    const labelNames = payload.pull_request.labels.map((label) => label.name);
-    // TODO: JE - Validate shit...
-    // TODO: Bump version
-    // TODO: Tag release
-    // TODO: publish
+// // MAIN CODE GOES HERE
+// (() => {
+//     const labelNames = payload.pull_request.labels.map((label) => label.name);
+//     // TODO: JE - Validate shit...
+//     // TODO: Bump version
+//     // TODO: Tag release
+//     // TODO: publish
 
-    if (labelNames.includes("major")) {
-        bumpMajor();
-    }
-})();
+//     let newVersion = 0;
+
+//     if (labelNames.includes("major")) {
+//         bumpMajor();
+//     }
+// })();
