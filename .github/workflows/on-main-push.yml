@@ -25,3 +25,5 @@ jobs:
 
             - name: JS Test
               uses: ./.github/workflows/actions/on-main-push
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}

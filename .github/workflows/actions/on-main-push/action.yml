@@ -1,10 +1,9 @@
 name: "On Main Push"
 description: "Fill this out..."
-# inputs:
-#     who-to-greet: # id of input
-#         description: "Who to greet"
-#         required: true
-#         default: "World"
+inputs:
+    github-token: # id of input
+        description: "Github Token"
+        required: true
 # outputs:
 #     time: # id of output
 #         description: "The time we greeted you"
