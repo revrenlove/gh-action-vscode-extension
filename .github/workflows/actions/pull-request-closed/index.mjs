@@ -20,6 +20,27 @@ const payload = github.context.payload;
 
 print(payload);
 
+// MAIN CODE GOES HERE
+(() => {
+    if (!github.context.payload.merged) {
+        console.info("PR Not Merged. Exiting...");
+
+        return;
+    }
+
+    const labelNames = payload.pull_request.labels.map((label) => label.name);
+    // TODO: JE - Validate shit...
+    // TODO: Bump version
+    // TODO: Tag release
+    // TODO: publish
+
+    let newVersion = 0;
+
+    if (labelNames.includes("major")) {
+        bumpMajor();
+    }
+})();
+
 // class Version {
 //     constructor(versionString) {
 //         const parts = versionString.split(".");
