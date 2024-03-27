@@ -22,6 +22,7 @@ print(payload);
 
 // MAIN CODE GOES HERE
 (() => {
+    // TODO: THere _should_ be a better way to do this...
     if (!github.context.payload.merged) {
         console.info("PR Not Merged. Exiting...");
 
