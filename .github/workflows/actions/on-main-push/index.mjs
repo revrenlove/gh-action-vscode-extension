@@ -14,17 +14,12 @@ const print = (msg) => {
 };
 
 print(github.context.payload);
-print(github.context.sha);
-
-if (github.context.payload.head_commit.id !== github.context.sha) {
-    console.warn("The SHA shit don't match, y'all!");
-}
 
 const ocktokit = github.getOctokit(core.getInput("github-token"));
 
 const pullRequestsReturnObject =
     await ocktokit.rest.search.issuesAndPullRequests({
-        q: `type:pr+repo:${github.context.repo.owner}/${github.context.repo.repo}`,
+        q: `${github.context.sha} type:pr+repo:${github.context.repo.owner}/${github.context.repo.repo}`,
     });
 
 print(pullRequestsReturnObject);
