@@ -1,17 +1,20 @@
+// TODO: JE - Name this properly, or have the code coded accordingly
+
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as exec from "@actions/exec";
 import fetch from "node-fetch";
 import * as fs from "fs";
+import print from "../common/util";
 // import { GitHub } from "@actions/github/lib/utils";
 
-const print = (msg) => {
-    if (typeof msg === "object") {
-        msg = JSON.stringify(msg, null, 4);
-    }
+// const print = (msg) => {
+//     if (typeof msg === "object") {
+//         msg = JSON.stringify(msg, null, 4);
+//     }
 
-    console.log(msg);
-};
+//     console.log(msg);
+// };
 
 print(github.context.payload);
 
