@@ -22,4 +22,8 @@ const pullRequestsReturnObject =
         q: `${github.context.sha} type:pr+repo:${github.context.repo.owner}/${github.context.repo.repo}`,
     });
 
-print(pullRequestsReturnObject);
+// print(pullRequestsReturnObject);
+
+const labels = pullRequestsReturnObject.data.items[0].labels;
+
+print(labels.map((l) => l.name));
